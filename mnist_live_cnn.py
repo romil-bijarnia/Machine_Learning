@@ -1,3 +1,4 @@
+codex/create-advanced-digit-recognition-model-with-animation-kc8qga
 import sys
 
 try:
@@ -24,6 +25,15 @@ except ModuleNotFoundError:
         "Install it with 'pip install matplotlib'."
     )
     sys.exit(0)
+
+import matplotlib; matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+import torch
+from torch import nn
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+ main
 
 
 class SimpleCNN(nn.Module):
@@ -80,6 +90,7 @@ def test(model, device, test_loader, loss_fn):
 
 
 def main():
+codex/create-advanced-digit-recognition-model-with-animation-kc8qga
     parser = argparse.ArgumentParser(
         description="Train a CNN on MNIST with a live accuracy animation."
     )
@@ -97,6 +108,9 @@ def main():
     args = parser.parse_args()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        main
     transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,))
@@ -134,12 +148,17 @@ def main():
         ax.set_title(f'Epoch {epoch + 1}\nTrain Acc: {train_acc:.2f} Test Acc: {test_acc:.2f}')
         return train_line, test_line
 
+ codex/create-advanced-digit-recognition-model-with-animation-kc8qga
     ani = FuncAnimation(fig, update, frames=range(args.epochs), blit=False, repeat=False)
 
     if args.save:
         ani.save(args.save, writer="imagemagick")
     else:
         plt.show()
+
+    ani = FuncAnimation(fig, update, frames=range(10), blit=False, repeat=False)
+    plt.show()
+ main
 
 
 if __name__ == '__main__':
