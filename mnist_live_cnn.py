@@ -1,13 +1,19 @@
+codex/create-advanced-digit-recognition-model-with-animation-5stcwi
 import sys
 try:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     from matplotlib.animation import FuncAnimation, PillowWriter
+
+import sys
+
+try:
     import torch
     from torch import nn
     from torch.utils.data import DataLoader
     from torchvision import datasets, transforms
+ codex/create-advanced-digit-recognition-model-with-animation-5stcwi
 except ModuleNotFoundError as e:
     missing = e.name
     sys.exit(
@@ -50,12 +56,46 @@ def parse_args():
 class SimpleCNN(nn.Module):
     """Small convolutional network for MNIST."""
 
+
+except ModuleNotFoundError:
+    print(
+        "This example requires PyTorch and torchvision. "
+        "Install them with 'pip install torch torchvision'."
+    )
+    sys.exit(0)
+
+try:
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib.animation import FuncAnimation
+    import argparse
+except ModuleNotFoundError:
+    print(
+        "This example requires matplotlib. "
+        "Install it with 'pip install matplotlib'."
+    )
+    sys.exit(0)
+
+import matplotlib; matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+import torch
+from torch import nn
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+ main
+
+
+class SimpleCNN(nn.Module):
     def __init__(self):
         super().__init__()
         self.conv1 = nn.Conv2d(1, 32, 3, 1)
         self.conv2 = nn.Conv2d(32, 64, 3, 1)
+        
         self.conv3 = nn.Conv2d(64, 128, 3, 1)
         self.fc1 = nn.Linear(3200, 128)
+        self.fc1 = nn.Linear(9216, 128)
         self.fc2 = nn.Linear(128, 10)
         self.relu = nn.ReLU()
         self.max_pool = nn.MaxPool2d(2)
@@ -63,10 +103,13 @@ class SimpleCNN(nn.Module):
 
     def forward(self, x):
         x = self.relu(self.conv1(x))
+
         x = self.relu(self.conv2(x))
         x = self.max_pool(x)
         x = self.relu(self.conv3(x))
         x = self.max_pool(x)
+
+        x = self.max_pool(self.relu(self.conv2(x)))
         x = torch.flatten(x, 1)
         x = self.relu(self.fc1(x))
         x = self.dropout(x)
@@ -107,9 +150,32 @@ def test(model, device, test_loader, loss_fn):
 
 
 def main():
+ codex/create-advanced-digit-recognition-model-with-animation-5stcwi
     args = parse_args()
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+codex/create-advanced-digit-recognition-model-with-animation-kc8qga
+    parser = argparse.ArgumentParser(
+        description="Train a CNN on MNIST with a live accuracy animation."
+    )
+    parser.add_argument(
+        "--save",
+        metavar="GIF",
+        help="Save the animation to the given GIF file instead of displaying it",
+    )
+    parser.add_argument(
+        "--epochs",
+        type=int,
+        default=10,
+        help="Number of training epochs (default: 10)",
+    )
+    args = parser.parse_args()
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
     transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,))
@@ -124,11 +190,15 @@ def main():
     if args.resume and os.path.exists(args.checkpoint):
         model.load_state_dict(torch.load(args.checkpoint, map_location=device))
 
+ 
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     loss_fn = nn.CrossEntropyLoss()
 
     fig, ax = plt.subplots()
+
     ax.set_xlim(0, args.epochs)
+
+    ax.set_xlim(0, 10)
     ax.set_ylim(0, 1)
     train_line, = ax.plot([], [], label='train accuracy')
     test_line, = ax.plot([], [], label='test accuracy')
@@ -157,6 +227,19 @@ def main():
     else:
         plt.show()
 
+
+        return train_line, test_line
+
+ 
+    ani = FuncAnimation(fig, update, frames=range(args.epochs), blit=False, repeat=False)
+
+    if args.save:
+        ani.save(args.save, writer="imagemagick")
+    else:
+        plt.show()
+
+    ani = FuncAnimation(fig, update, frames=range(10), blit=False, repeat=False)
+    plt.show()
 
 if __name__ == '__main__':
     main()
