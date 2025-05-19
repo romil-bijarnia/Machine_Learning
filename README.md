@@ -23,4 +23,11 @@ on the Iris dataset.
 
 A more advanced example can be found in `mnist_live_cnn.py`, which trains
 a convolutional neural network on the MNIST digit dataset while
-animating training and test accuracy in real time.
+codex/create-advanced-digit-recognition-model-with-animation-5stcwi
+animating training and test accuracy in real time. The script accepts
+CLI options such as `--epochs` to control training length, `--save` to
+export the animation as a GIF, and `--checkpoint`/`--resume` to save and
+reload model weights so the network can remember what it has learned.
+
+animating training and test accuracy in real time. 
+main
