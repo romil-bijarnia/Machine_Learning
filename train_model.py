@@ -1,8 +1,16 @@
 import sys
-from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
+
+try:
+    from sklearn.datasets import load_iris
+    from sklearn.model_selection import train_test_split
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import accuracy_score
+except ModuleNotFoundError as e:
+    missing = str(e).split("'")[1]
+    sys.exit(
+        f"Missing dependency: {missing}.\n"
+        "Install it with `pip install scikit-learn` and retry."
+    )
 
 
 def main():
